@@ -12,7 +12,7 @@ from retry import retry
 
 JB_URL = 'https://codetest.jurosbaixos.com.br/v1/fizzbuzz/'
 
-def raise_not_ok(response, acceptable=[200]):
+def raise_not_ok(response):
     obj = response.json()
     if response.status_code != 200:
         # it seems 'No puzzle' is a valid response even in post and delete requests

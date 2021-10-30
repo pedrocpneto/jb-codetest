@@ -101,6 +101,6 @@ if __name__ == '__main__':
         has_treasure, value = get_can_i_has_treasure(jb_headers, hash)
         if has_treasure:
             print(f'TREASURE!: {value}')
-            break;
+            break
         else:
             print('No treasure yet :/')

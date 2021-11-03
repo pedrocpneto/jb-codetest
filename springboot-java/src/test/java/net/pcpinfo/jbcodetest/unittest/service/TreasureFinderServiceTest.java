@@ -1,6 +1,5 @@
 package net.pcpinfo.jbcodetest.unittest.service;
 
-import net.pcpinfo.jbcodetest.BaseUnitTest;
 import net.pcpinfo.jbcodetest.service.TreasureFinderService;
 import net.pcpinfo.jbcodetest.unittest.BaseUnitTest;
 import org.junit.jupiter.api.Test;

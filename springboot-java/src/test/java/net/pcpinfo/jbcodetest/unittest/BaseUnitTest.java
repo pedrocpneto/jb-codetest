@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public abstract class BaseUnitTest {
 
     @TestConfiguration
-    @ComponentScan(basePackages = "net.pcpinfo.jbcodetest.unittest.service")
+    @ComponentScan(basePackages = "net.pcpinfo.jbcodetest.service")
     static class JBCodetestTestConfiguration {
 
     }

@@ -1,4 +1,4 @@
-package net.pcpinfo.jbcodetest;
+package net.pcpinfo.jbcodetest.unittest;
 
 import net.pcpinfo.jbcodetest.client.JBCodetestApiClient;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public abstract class BaseUnitTest {
 
     @TestConfiguration
-    @ComponentScan(basePackages = "net.pcpinfo.jbcodetest.service")
+    @ComponentScan(basePackages = "net.pcpinfo.jbcodetest.unittest.service")
     static class JBCodetestTestConfiguration {
 
     }

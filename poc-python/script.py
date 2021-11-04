@@ -14,11 +14,10 @@ JB_URL = 'https://codetest.jurosbaixos.com.br/v1/fizzbuzz/'
 
 def raise_not_ok(response):
     obj = response.json()
-    if response.status_code != 200:
-        # it seems 'No puzzle' is a valid response even in post and delete requests
-        if obj['errors'][0]['message'] != 'No puzzle':
-            raise HTTPError(f'{response.status_code} Error: {response.reason}', response=response)
-    elif ('errors' in obj):
+    if response.status_code != 200 and response.status_code != 400:
+        # it seems HTTP 400 is a valid response for some endpoints
+        raise HTTPError(f'{response.status_code} Error: {response.reason}', response=response)
+    elif 'errors' in obj and response.status_code == 200:
         raise HTTPError('200 response with errors')
 
 
@@ -96,9 +95,9 @@ if __name__ == '__main__':
         print(f'SHA256: {json_sha_256(fb_numbers)}')
         hash = post_hash(jb_headers, fb_numbers)
         
-        delete_range(jb_headers, hash)
         
         has_treasure, value = get_can_i_has_treasure(jb_headers, hash)
+        delete_range(jb_headers, hash)
         if has_treasure:
             print(f'TREASURE!: {value}')
             break

@@ -1,5 +1,6 @@
 package net.pcpinfo.jbcodetest.unittest.service;
 
+import lombok.SneakyThrows;
 import net.pcpinfo.jbcodetest.service.TreasureFinderService;
 import net.pcpinfo.jbcodetest.unittest.BaseUnitTest;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ public class TreasureFinderServiceTest extends BaseUnitTest {
     private TreasureFinderService treasureFinderService;
 
     @Test
+    @SneakyThrows
     public void should_call_reset_when_reset_method_was_called() {
         treasureFinderService.reset();
 

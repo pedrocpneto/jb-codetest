@@ -7,7 +7,13 @@ There will be in this repository two implementations, one Proof-of-concept scrip
 ## Python proof-of-concept usage
 Requires Python 3 and Retry Package (https://pypi.org/project/retry/).
 
-To install Retry;
+To install dependencies
+```shell
+$ cd poc-python
+$ pip install -r requirements.txt
+```
+
+To install Retry manually:
 ```shell
 $ pip install retry
 ```
@@ -21,3 +27,15 @@ To reset challenge:
 ```shell
 $ JB_API_KEY=<your_key> ./poc-python/script.py reset
 ```
+
+## Spring Boot implementation
+
+Uses Gradle for dependency management and build tool
+
+To run application:
+```shell
+$ cd springboot-java
+$ JB_API_KEY=<your_key> ./gradlew bootRun
+```
+
+By default, API could be accessed at http://localhost:8080/swagger-ui/

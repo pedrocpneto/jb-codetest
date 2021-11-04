@@ -22,7 +22,7 @@ public class JbCodetestApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("Running");
-		treasureFinderService.reset();
+		treasureFinderService.startPuzzle();
 		log.info("Done");
 	}
 }

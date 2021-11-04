@@ -1,7 +1,9 @@
 package net.pcpinfo.jbcodetest.util;
 
-import org.springframework.util.StringUtils;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FizzBuzzUtils {
 
     public static String fizzBuzzNumber(int number) {

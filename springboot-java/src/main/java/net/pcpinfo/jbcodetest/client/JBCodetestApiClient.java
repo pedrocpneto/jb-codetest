@@ -3,10 +3,15 @@ package net.pcpinfo.jbcodetest.client;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
+
+import static net.pcpinfo.jbcodetest.util.JsonUtils.fromJson;
 
 @Component
 @Slf4j
@@ -25,18 +30,40 @@ public class JBCodetestApiClient {
                         .addHeader("X-API-KEY", apiKey)
                         .build();
                 var response = chain.proceed(newRequest);
-                if (!response.isSuccessful()) {
-                    throw new JurosBaixosAPIException();
-                }
                 return response;
             })
             .build();
 
     public void reset() throws IOException {
-        var request = new Request.Builder().url(url + "/fizzbuzz/reset")
+        var request = buildGetRequest("/fizzbuzz/reset");
+        log.info("request: {}", request);
+        var response = execute(request);
+        log.info("response: {}", response);
+    }
+
+    public int[] getNumbers() throws IOException {
+        var request = buildGetRequest("/fizzbuzz");
+        log.info("request: {}", request);
+        var response= execute(request);
+        log.info("response: {}", response);
+        return fromJson(response.body().string(), int[].class);
+    }
+
+    public void post(String hash, List<String> puzzle) {
+        // TODO
+    }
+
+    @NotNull
+    private Request buildGetRequest(String path) {
+        return new Request.Builder().url(url + path)
                 .get()
                 .build();
-        var call = client.newCall(request);
-        var response = call.execute();
     }
+
+    @NotNull
+    private Response execute(Request request) throws IOException {
+        return client.newCall(request).execute();
+    }
+
+
 }

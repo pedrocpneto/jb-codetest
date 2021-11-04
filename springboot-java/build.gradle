@@ -8,6 +8,10 @@ group = 'net.pcpinfo'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+dependencyLocking {
+	lockAllConfigurations()
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor

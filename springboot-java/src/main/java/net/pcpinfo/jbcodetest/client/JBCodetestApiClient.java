@@ -1,10 +1,13 @@
 package net.pcpinfo.jbcodetest.client;
 
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import okhttp3.internal.http.HttpMethod;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,14 +46,21 @@ public class JBCodetestApiClient {
         log.info("request: {}", request);
         var response = execute(request);
         log.info("response: {}", response);
+        log.debug("response body: {}", responseBody(response));
     }
 
+    @Retryable(value = RuntimeException.class)
     public int[] getNumbers() throws IOException {
         var request = buildRequest("/fizzbuzz", RequestMethod.GET);
         log.info("request: {}", request);
         var response= execute(request);
         log.info("response: {}", response);
-        return fromJson(response.body().string(), int[].class);
+        String body = responseBody(response);
+        log.debug("response body: {}", body);
+        if (body == null) {
+            throw new IllegalStateException("invalid response body");
+        }
+        return fromJson(body, int[].class);
     }
 
     public void post(String hash, List<String> puzzle) throws IOException {
@@ -58,6 +68,8 @@ public class JBCodetestApiClient {
         log.info("request: {}", request);
         var response= execute(request);
         log.info("response: {}", response);
+        String body = responseBody(response);
+        log.debug("response body: {}", body);
     }
 
     public void delete(String hash) throws IOException {
@@ -65,16 +77,20 @@ public class JBCodetestApiClient {
         log.info("request: {}", request);
         var response= execute(request);
         log.info("response: {}", response);
+        String body = responseBody(response);
+        log.debug("response body: {}", body);
     }
 
+    @Retryable(value = {RuntimeException.class})
     public Optional<String> getTreasure(String hash) throws IOException {
         var request = buildRequest("/fizzbuzz/" + hash + "/canihastreasure", RequestMethod.GET);
         log.info("request: {}", request);
         var response= execute(request);
         log.info("response: {}", response);
+        String body = responseBody(response);
+        log.debug("response body: {}", body);
         return Optional.ofNullable(
-                Objects.toString(fromJson(response.body().string(), Map.class)
-                        .get("treasure"), null));
+                Objects.toString(fromJson(body, Map.class).get("treasure"), null));
     }
 
     @NotNull
@@ -99,5 +115,16 @@ public class JBCodetestApiClient {
     @NotNull
     private Response execute(Request request) throws IOException {
         return client.newCall(request).execute();
+    }
+
+    private String responseBody(Response response) {
+        try(ResponseBody body = response.body()) {
+            if (body != null) {
+                return body.string();
+            }
+        } catch (IOException e) {
+            log.error("error on parse response", e);
+        }
+        return null;
     }
 }

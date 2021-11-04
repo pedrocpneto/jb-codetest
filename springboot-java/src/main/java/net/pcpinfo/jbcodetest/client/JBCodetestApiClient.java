@@ -49,7 +49,7 @@ public class JBCodetestApiClient {
         log.debug("response body: {}", responseBody(response));
     }
 
-    @Retryable(value = RuntimeException.class)
+    @Retryable({RuntimeException.class, IOException.class})
     public int[] getNumbers() throws IOException {
         var request = buildRequest("/fizzbuzz", RequestMethod.GET);
         log.info("request: {}", request);
@@ -63,6 +63,7 @@ public class JBCodetestApiClient {
         return fromJson(body, int[].class);
     }
 
+    @Retryable({RuntimeException.class, IOException.class})
     public void post(String hash, List<String> puzzle) throws IOException {
         var request = buildRequest("/fizzbuzz/" + hash, RequestMethod.POST, puzzle);
         log.info("request: {}", request);
@@ -72,6 +73,7 @@ public class JBCodetestApiClient {
         log.debug("response body: {}", body);
     }
 
+    @Retryable({RuntimeException.class, IOException.class})
     public void delete(String hash) throws IOException {
         var request = buildRequest("/fizzbuzz/" + hash, RequestMethod.DELETE);
         log.info("request: {}", request);
@@ -81,7 +83,7 @@ public class JBCodetestApiClient {
         log.debug("response body: {}", body);
     }
 
-    @Retryable(value = {RuntimeException.class})
+    @Retryable({RuntimeException.class, IOException.class})
     public Optional<String> getTreasure(String hash) throws IOException {
         var request = buildRequest("/fizzbuzz/" + hash + "/canihastreasure", RequestMethod.GET);
         log.info("request: {}", request);

@@ -34,7 +34,7 @@ public class TreasureFinderService {
     }
 
     @SneakyThrows
-    public void startPuzzle() {
+    public void treasureFind() {
         log.info("init");
         var iteration = 0;
         var treasure = Optional.<String>empty();

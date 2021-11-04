@@ -35,7 +35,7 @@ public class TreasureFinderServiceTest extends BaseUnitTest {
         when(jbCodetestApiClient.getNumbers()).thenReturn(new int[] {1, 3, 5, 15});
         when(jbCodetestApiClient.getTreasure(any())).thenReturn(Optional.of("aTreasure"));
 
-        treasureFinderService.startPuzzle();
+        treasureFinderService.treasureFind();
 
         verify(jbCodetestApiClient, times(1))
                 .post("d6a2d6a090ad568679f8c708dc3aa4c27b2a6ae8f0e1f64ffd7a8a38fa69ff14",
@@ -48,7 +48,7 @@ public class TreasureFinderServiceTest extends BaseUnitTest {
         when(jbCodetestApiClient.getNumbers()).thenReturn(new int[] {4, 6, 8, 18});
         when(jbCodetestApiClient.getTreasure(any())).thenReturn(Optional.of("aTreasure"));
 
-        treasureFinderService.startPuzzle();
+        treasureFinderService.treasureFind();
 
         var inOrder = inOrder(jbCodetestApiClient);
         inOrder.verify(jbCodetestApiClient, times(1))
@@ -80,7 +80,7 @@ public class TreasureFinderServiceTest extends BaseUnitTest {
             }
         });
 
-        treasureFinderService.startPuzzle();
+        treasureFinderService.treasureFind();
 
         verify(jbCodetestApiClient, times(times)).getNumbers();
         verify(jbCodetestApiClient, times(times)).post(any(), any());
